@@ -195,7 +195,7 @@ class TXT():
         self.f = open(f".tmp/{name}.txt","w",encoding="utf-8")
     
     def add(self,text):
-        self.f.write(text.replace("<br />",""))
+        self.f.write(text.replace("<br />","").replace("&gt;", ">").replace("<font color=\"#789922\">", "").replace("</font>", ""))
         self.f.write("\n")
 
     def __del__(self):

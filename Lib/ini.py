@@ -12,7 +12,7 @@ class CONF():
         self.LOG = ""
         if not os.path.exists(conf_path):
             os.makedirs(conf_path)
-        self.CONF = configparser.ConfigParser()
+        self.CONF = configparser.ConfigParser(interpolation=configparser.ExtendedInterpolation())
         self.F = os.path.join(f"{conf_path}", f"{name}.ini")
         try:
             self.CONF.read(self.F, encoding="utf-8")
@@ -57,7 +57,8 @@ class CONF():
             return False, False
 
     def load_time(self, sec):
-        return self.CONF.get(sec, "time")
+        # return self.CONF.get(sec, "time")
+        return True
 
     def save(self):
         self.CONF.write(open(self.F, "w+", encoding="utf-8"))

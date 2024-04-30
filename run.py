@@ -61,25 +61,25 @@ def out(fin, x):
     print("[OUT]:正在导出")
     from Epub import Epub
     from Epub import TXT
-    e = Epub(fin["title"], f'''https://www.nmbxd1.com/t/{fin["id"]}''')
+    e = Epub(fin["id"], f'''https://www.nmbxd1.com/t/{fin["id"]}''')
     e.plugin(x.s)
     e.cover(fin["content"])
     msg = fin["Replies"]
-    e.add_text(
-        f'''来自https://www.nmbxd1.com/t/{fin["id"]}<br />版权归属原作者及X岛匿名版<br />请勿用于违法用途，仅供学习交流使用，请在24小时内删除<br />本文档由https://github.com/Rcrwrate/Xdnmb_downer生成''', "来源声明")
+    # e.add_text(
+        # f'''来自https://www.nmbxd1.com/t/{fin["id"]}<br />版权归属原作者及X岛匿名版<br />请勿用于违法用途，仅供学习交流使用，请在24小时内删除<br />本文档由https://github.com/Rcrwrate/Xdnmb_downer生成''', "来源声明")
     for i in msg:
         if i["img"] != "":
-            e.add_text(i["content"], i["title"], [
+            e.add_text(i["content"], i["id"], [
                        "https://image.nmb.best/image/"+i["img"]+i["ext"]])
         else:
-            e.add_text(i["content"], i["title"])
+            e.add_text(i["content"], i["id"])
     e.finish()
-    t = TXT(fin["title"])
-    t.add(
-        f'''来自https://www.nmbxd1.com/t/{fin["id"]}\n版权归属原作者及X岛匿名版\n请勿用于违法用途，仅供学习交流使用，请在24小时内删除\n本文档由https://github.com/Rcrwrate/Xdnmb_downer生成''')
-    t.add(fin["content"])
+    t = TXT(fin["id"])
+    # t.add(
+    #     f'''来自https://www.nmbxd1.com/t/{fin["id"]}\n版权归属原作者及X岛匿名版\n请勿用于违法用途，仅供学习交流使用，请在24小时内删除\n本文档由https://github.com/Rcrwrate/Xdnmb_downer生成''')
+    t.add(f"{fin['user_hash']} {fin['now']} {fin['id']}\n{fin['content']}")
     for i in fin["Replies"]:
-        t.add(i["content"])
+        t.add(f"{i['user_hash']} {i['now']} {i['id']}\n{i['content']}")
     del t
     print("[OUT]:导出完成")
 
@@ -132,7 +132,7 @@ def main():
                     else:
                         x = Xdnmb(cookie)
                         try:
-                            fin = x.get_with_cache(inputs[1], x.po)
+                            fin = x.get_with_cache(inputs[1], x.defalut)
                         except Exception as e:
                             print(f"[ERROR]:\t{e.args}")
                             fin = x.err
@@ -153,7 +153,7 @@ def main():
                     else:
                         x = Xdnmb(cookie)
                         try:
-                            fin = x.get_with_cache(inputs[1], x.po)
+                            fin = x.get_with_cache(inputs[1], x.defalut)
                         except Exception as e:
                             print(f"[ERROR]:\t{e.args}")
                             fin = x.err
